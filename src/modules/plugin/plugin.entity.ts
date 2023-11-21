@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Permission } from '../permission/permission.entity';
 
@@ -22,17 +24,25 @@ export class Plugin {
   enable: boolean;
 
   @Column()
-  deployment: string; // Url yaml file for deployment
-
-  @Column()
-  service: string; // Uri yaml file for service
+  infrastructure: string; // Uri yaml file for service
 
   @Column()
   upstream: string;
 
+  @Column('jsonb')
+  config: object;
+
   @ManyToMany(() => Permission)
   @JoinTable({
     name: 'plugin_permission',
+    joinColumn: { name: 'plugin_id' },
+    inverseJoinColumn: { name: 'permission_id' },
   })
   permissions: Permission[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

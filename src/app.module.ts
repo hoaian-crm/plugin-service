@@ -16,6 +16,7 @@ import { PluginModule } from './modules/plugin/plugin.module';
       database: process.env.PG_DATABASE,
       port: +process.env.PG_PORT,
       autoLoadEntities: true,
+      logging: true,
     }),
 
     // App Module
