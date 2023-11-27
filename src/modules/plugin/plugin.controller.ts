@@ -14,6 +14,8 @@ export class PluginController {
 
   @Get('/')
   async find(@Query() query: FindPluginDto) {
+    if (!query.limit) query.limit = 10;
+    if (!query.offset) query.offset = 0;
     const result = await this.pluginService.find(query);
     return {
       messages: [],
