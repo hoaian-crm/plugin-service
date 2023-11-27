@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { PluginService } from './plugin.service';
 import { CreatePluginDto } from './dto/create';
 import { FindPluginDto } from './dto/find';
+import { PluginService } from './plugin.service';
 
 @Controller('/plugins')
 export class PluginController {
@@ -9,7 +9,14 @@ export class PluginController {
 
   @Post('/')
   async create(@Body() data: CreatePluginDto) {
-    return this.pluginService.create(data);
+    const plugin = await this.pluginService.create(data);
+    return {
+      messages: [],
+      data: {
+        result: plugin,
+        total: 1,
+      },
+    };
   }
 
   @Get('/')
@@ -22,8 +29,8 @@ export class PluginController {
       data: {
         result: result[0],
         total: result[1],
-        ...query
-      }
-    }
+        ...query,
+      },
+    };
   }
 }

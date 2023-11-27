@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsObject, IsOptional, IsString } from 'class-validator';
 import { Permission } from 'src/modules/permission/permission.entity';
 
 export class CreatePluginDto {
@@ -11,4 +11,7 @@ export class CreatePluginDto {
 
   @IsArray()
   permissions: Permission[];
+
+  @IsObject()
+  config: object;
 }
