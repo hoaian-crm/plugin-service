@@ -40,6 +40,9 @@ export class Plugin {
   })
   permissions: Permission[];
 
+  @Column()
+  image: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
