@@ -4,6 +4,7 @@ import { Plugin } from './plugin.entity';
 import { DataSource, Repository } from 'typeorm';
 import { CreatePluginDto } from './dto/create';
 import { PermissionService } from '../permission/permission.serivce';
+import { FindPluginDto } from './dto/find';
 
 @Injectable()
 export class PluginService {
@@ -38,10 +39,12 @@ export class PluginService {
     }
   }
 
-  find() {
-    return this.pluginRepository.find({
+  find(query: FindPluginDto) {
+    return this.pluginRepository.findAndCount({
       relations: ['permissions'],
       where: { enable: true },
+      skip: query.offset,
+      take: query.limit
     });
   }
 
