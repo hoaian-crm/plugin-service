@@ -23,15 +23,6 @@ export class Plugin {
   @Column()
   enable: boolean;
 
-  @Column()
-  infrastructure: string; // Uri yaml file for service
-
-  @Column()
-  upstream: string;
-
-  @Column('jsonb')
-  config: object;
-
   @ManyToMany(() => Permission)
   @JoinTable({
     name: 'plugin_permission',
@@ -48,4 +39,7 @@ export class Plugin {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column('jsonb')
+  config: object;
 }
