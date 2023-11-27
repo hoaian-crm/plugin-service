@@ -14,4 +14,7 @@ export class CreatePluginDto {
 
   @IsObject()
   config: object;
+
+  @IsString()
+  image: string;
 }
