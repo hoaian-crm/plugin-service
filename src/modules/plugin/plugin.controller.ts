@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
 import { CreatePluginDto } from './dto/create';
 import { FindPluginDto } from './dto/find';
 import { PluginService } from './plugin.service';
 import { Response } from 'src/prototypes/formatters/response';
+import { EnablePluginDto } from './dto/enable';
 
 @Controller('/plugins')
 export class PluginController {
@@ -20,5 +21,11 @@ export class PluginController {
     if (!query.offset) query.offset = 0;
     const result = await this.pluginService.find(query);
     return Response.findSuccess(result);
+  }
+
+  @Put('/enable')
+  async update(@Body() data: EnablePluginDto) {
+    const result = await this.pluginService.enable(data);
+    return Response.updateSuccess(result);
   }
 }
