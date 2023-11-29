@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CreatePluginDto } from './dto/create';
 import { FindPluginDto } from './dto/find';
 import { PluginService } from './plugin.service';
+import { Response } from 'src/prototypes/formatters/response';
 
 @Controller('/plugins')
 export class PluginController {
@@ -10,13 +11,7 @@ export class PluginController {
   @Post('/')
   async create(@Body() data: CreatePluginDto) {
     const plugin = await this.pluginService.create(data);
-    return {
-      messages: [],
-      data: {
-        result: plugin,
-        total: 1,
-      },
-    };
+    return Response.createSuccess(plugin);
   }
 
   @Get('/')
@@ -24,13 +19,6 @@ export class PluginController {
     if (!query.limit) query.limit = 10;
     if (!query.offset) query.offset = 0;
     const result = await this.pluginService.find(query);
-    return {
-      messages: [],
-      data: {
-        result: result[0],
-        total: result[1],
-        ...query,
-      },
-    };
+    return Response.findSuccess(result);
   }
 }

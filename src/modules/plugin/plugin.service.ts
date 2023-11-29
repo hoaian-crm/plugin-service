@@ -5,6 +5,7 @@ import { DataSource, Repository } from 'typeorm';
 import { CreatePluginDto } from './dto/create';
 import { PermissionService } from '../permission/permission.serivce';
 import { FindPluginDto } from './dto/find';
+import { EnablePluginDto } from './dto/enable';
 
 @Injectable()
 export class PluginService {
@@ -44,8 +45,18 @@ export class PluginService {
       relations: ['permissions'],
       where: { enable: true },
       skip: query.offset,
-      take: query.limit
+      take: query.limit,
     });
+  }
+
+  async enable(data: EnablePluginDto) {
+    const plugin = await this.pluginRepository.findOne({
+      where: {
+        name: data.name,
+      },
+    });
+    plugin.config = data.config;
+    return await this.pluginRepository.save(plugin);
   }
 
   patch() {}
